@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.possystembackend.bo.CustomerBO;
+import lk.ijse.possystembackend.bo.impl.CustomerBOProcess;
 import lk.ijse.possystembackend.dao.CustomerData;
 import lk.ijse.possystembackend.dao.impl.CustomerDataProcess;
 import lk.ijse.possystembackend.dto.CustomerDTO;
@@ -19,6 +21,7 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = "/customer")
 public class CustomerController extends HttpServlet {
     CustomerData customerData = new CustomerDataProcess();
+    CustomerBO customerBO = new CustomerBOProcess();
     Connection connection;
     @Override
     public void init() throws ServletException {
@@ -45,7 +48,7 @@ public class CustomerController extends HttpServlet {
         CustomerDTO customerDTO = jsonb.fromJson(req.getReader() , CustomerDTO.class);
         System.out.println(customerDTO);
         try {
-            boolean isSaved = customerData.save(customerDTO,connection);
+            boolean isSaved = customerBO.saveStudent(customerDTO,connection);
             if (isSaved) {
                 resp.getWriter().write("Save Customer");
                 resp.setStatus(HttpServletResponse.SC_CREATED);
