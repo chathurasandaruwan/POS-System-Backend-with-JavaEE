@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class CustomerDataProcess implements CustomerData {
     static String SAVE_CUSTOMER = "INSERT INTO customer(id,name,address,salary)VALUE(?,?,?,?)";
     static String UPDATE_CUSTOMER = "UPDATE customer SET name =? , address = ?, salary =? WHERE id = ?";
-    static String DELETE_CUSTOMER = "DELETE FROM students WHERE id = ?";
+    static String DELETE_CUSTOMER = "DELETE FROM customer WHERE id = ?";
 
     @Override
     public boolean save(CustomerDTO dto, Connection connection) throws SQLException {
@@ -34,7 +34,7 @@ public class CustomerDataProcess implements CustomerData {
         return preparedStatement.executeUpdate() != 0;
     }
     @Override
-    public boolean delete(String id,Connection connection) throws SQLException {
+    public boolean delete(String id, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CUSTOMER);
         preparedStatement.setString(1,id);
         return preparedStatement.executeUpdate()>0;

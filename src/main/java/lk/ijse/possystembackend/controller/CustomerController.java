@@ -85,7 +85,6 @@ public class CustomerController extends HttpServlet {
                 resp.getWriter().write("unable to update Customer");
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -93,6 +92,16 @@ public class CustomerController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        String customerId = req.getParameter("id");
+        try {
+            boolean isDelete = customerBO.deleteCustomer(customerId,connection);
+            if (isDelete){
+                resp.getWriter().write(customerId+" : Delete successfully!!!");
+            }else {
+                resp.getWriter().write("Some thing wrong!! Please Try again!!!");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
