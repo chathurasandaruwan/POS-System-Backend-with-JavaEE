@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/customer")
 public class CustomerController extends HttpServlet {
@@ -64,8 +65,17 @@ public class CustomerController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        ArrayList<CustomerDTO> customerDTOS =customerBO.getAllCustomers(connection);
+        for (CustomerDTO dto : customerDTOS) {
+            System.out.println(dto.getCustomerId()+"\n");
+            resp.getWriter().write(dto.getCustomerId()+"\n");
+            resp.getWriter().write(dto.getCustomerName()+"\n");
+            resp.getWriter().write(dto.getCustomerAdd()+"\n");
+            resp.getWriter().write(dto.getCustomerSalary()+"\n");
+            resp.getWriter().write("======================"+"\n");
+        }
     }
+
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

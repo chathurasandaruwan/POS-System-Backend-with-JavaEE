@@ -7,6 +7,7 @@ import lk.ijse.possystembackend.dto.CustomerDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CustomerBOProcess implements CustomerBO {
     CustomerData customerData = new CustomerDataProcess();
@@ -19,7 +20,11 @@ public class CustomerBOProcess implements CustomerBO {
         return customerData.update(dto,connection);
     }
     @Override
-    public boolean deleteCustomer(String id ,Connection connection) throws SQLException {
+    public boolean deleteCustomer(String id, Connection connection) throws SQLException {
         return customerData.delete(id,connection);
+    }
+    @Override
+    public ArrayList<CustomerDTO> getAllCustomers(Connection connection) {
+        return customerData.getAll(connection);
     }
 }

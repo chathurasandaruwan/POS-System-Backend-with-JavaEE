@@ -5,12 +5,15 @@ import lk.ijse.possystembackend.dto.CustomerDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CustomerDataProcess implements CustomerData {
     static String SAVE_CUSTOMER = "INSERT INTO customer(id,name,address,salary)VALUE(?,?,?,?)";
     static String UPDATE_CUSTOMER = "UPDATE customer SET name =? , address = ?, salary =? WHERE id = ?";
     static String DELETE_CUSTOMER = "DELETE FROM customer WHERE id = ?";
+    private static final String GET_ALL_CUSTOMER = "SELECT * FROM customer";
 
     @Override
     public boolean save(CustomerDTO dto, Connection connection) throws SQLException {
@@ -38,6 +41,30 @@ public class CustomerDataProcess implements CustomerData {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CUSTOMER);
         preparedStatement.setString(1,id);
         return preparedStatement.executeUpdate()>0;
+    }
+
+    @Override
+    public ArrayList<CustomerDTO> getAll(Connection connection) {
+        ArrayList<CustomerDTO> customers = new ArrayList<>();
+        try (
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_CUSTOMER);
+             ResultSet rs = preparedStatement.executeQuery()) {
+
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                String address = rs.getString("address");
+                String salary = rs.getString("salary");
+
+                CustomerDTO customer = new CustomerDTO(id, name, address, salary);
+                customers.add(customer);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
 
