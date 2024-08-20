@@ -11,7 +11,11 @@ import java.sql.SQLException;
 public class CustomerBOProcess implements CustomerBO {
     CustomerData customerData = new CustomerDataProcess();
     @Override
-    public boolean saveStudent(CustomerDTO dto, Connection connection) throws SQLException {
+    public boolean saveCustomer(CustomerDTO dto, Connection connection) throws SQLException {
         return customerData.save(dto,connection);
+    }
+    @Override
+    public boolean updateCustomer(CustomerDTO dto, Connection connection) throws SQLException {
+        return customerData.update(dto,connection);
     }
 }

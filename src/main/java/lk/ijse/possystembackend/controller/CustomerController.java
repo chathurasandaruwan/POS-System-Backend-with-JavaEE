@@ -47,7 +47,7 @@ public class CustomerController extends HttpServlet {
         CustomerDTO customerDTO = jsonb.fromJson(req.getReader() , CustomerDTO.class);
         System.out.println(customerDTO);
         try {
-            boolean isSaved = customerBO.saveStudent(customerDTO,connection);
+            boolean isSaved = customerBO.saveCustomer(customerDTO,connection);
             if (isSaved) {
                 resp.getWriter().write("Save Customer");
                 resp.setStatus(HttpServletResponse.SC_CREATED);
@@ -76,7 +76,19 @@ public class CustomerController extends HttpServlet {
         Jsonb jsonb = JsonbBuilder.create();
         CustomerDTO customerDTO = jsonb.fromJson(req.getReader() , CustomerDTO.class);
         System.out.println(customerDTO);
+        try {
+            boolean isUpdate = customerBO.updateCustomer(customerDTO,connection);
+            if (isUpdate) {
+                resp.getWriter().write("Update Customer");
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+            } else {
+                resp.getWriter().write("unable to update Customer");
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
