@@ -18,4 +18,8 @@ public class CustomerBOProcess implements CustomerBO {
     public boolean updateCustomer(CustomerDTO dto, Connection connection) throws SQLException {
         return customerData.update(dto,connection);
     }
+    @Override
+    public boolean deleteCustomer(String id ,Connection connection) throws SQLException {
+        return customerData.delete(id,connection);
+    }
 }
