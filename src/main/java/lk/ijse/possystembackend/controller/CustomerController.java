@@ -8,9 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.possystembackend.bo.CustomerBO;
-import lk.ijse.possystembackend.bo.impl.CustomerBOProcess;
-import lk.ijse.possystembackend.dao.CustomerData;
-import lk.ijse.possystembackend.dao.impl.CustomerDataProcess;
+import lk.ijse.possystembackend.bo.impl.CustomerBOImpl;
 import lk.ijse.possystembackend.dto.CustomerDTO;
 
 import java.io.IOException;
@@ -21,7 +19,7 @@ import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/customer")
 public class CustomerController extends HttpServlet {
-    CustomerBO customerBO = new CustomerBOProcess();
+    CustomerBO customerBO = new CustomerBOImpl();
     Connection connection;
     @Override
     public void init() throws ServletException {

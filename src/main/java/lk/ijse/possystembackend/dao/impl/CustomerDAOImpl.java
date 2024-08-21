@@ -1,7 +1,6 @@
 package lk.ijse.possystembackend.dao.impl;
 
-import lk.ijse.possystembackend.dao.CustomerData;
-import lk.ijse.possystembackend.dto.CustomerDTO;
+import lk.ijse.possystembackend.dao.CustomerDAO;
 import lk.ijse.possystembackend.entity.Customer;
 
 import java.sql.Connection;
@@ -10,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CustomerDataProcess implements CustomerData {
+public class CustomerDAOImpl implements CustomerDAO {
     static String SAVE_CUSTOMER = "INSERT INTO customer(id,name,address,salary)VALUE(?,?,?,?)";
     static String UPDATE_CUSTOMER = "UPDATE customer SET name =? , address = ?, salary =? WHERE id = ?";
     static String DELETE_CUSTOMER = "DELETE FROM customer WHERE id = ?";
