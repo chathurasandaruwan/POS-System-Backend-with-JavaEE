@@ -2,6 +2,7 @@ package lk.ijse.possystembackend.dao.impl;
 
 import lk.ijse.possystembackend.dao.CustomerData;
 import lk.ijse.possystembackend.dto.CustomerDTO;
+import lk.ijse.possystembackend.entity.Customer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,23 +17,23 @@ public class CustomerDataProcess implements CustomerData {
     private static final String GET_ALL_CUSTOMER = "SELECT * FROM customer";
 
     @Override
-    public boolean save(CustomerDTO dto, Connection connection) throws SQLException {
+    public boolean save(Customer entity, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(SAVE_CUSTOMER);
 
-        preparedStatement.setString(1, dto.getCustomerId());
-        preparedStatement.setString(2, dto.getCustomerName());
-        preparedStatement.setString(3, dto.getCustomerAdd());
-        preparedStatement.setString(4, dto.getCustomerSalary());
+        preparedStatement.setString(1, entity.getCustomerId());
+        preparedStatement.setString(2, entity.getCustomerName());
+        preparedStatement.setString(3, entity.getCustomerAdd());
+        preparedStatement.setString(4, entity.getCustomerSalary());
 
         return preparedStatement.executeUpdate() != 0;
     }
     @Override
-    public boolean update(CustomerDTO customerDTO, Connection connection) throws SQLException {
+    public boolean update(Customer customerEntity, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUSTOMER);
-        preparedStatement.setString(1,customerDTO.getCustomerName());
-        preparedStatement.setString(2, customerDTO.getCustomerAdd());
-        preparedStatement.setString(3, customerDTO.getCustomerSalary());
-        preparedStatement.setString(4, customerDTO.getCustomerId());
+        preparedStatement.setString(1,customerEntity.getCustomerName());
+        preparedStatement.setString(2, customerEntity.getCustomerAdd());
+        preparedStatement.setString(3, customerEntity.getCustomerSalary());
+        preparedStatement.setString(4, customerEntity.getCustomerId());
 
         return preparedStatement.executeUpdate() != 0;
     }
@@ -44,8 +45,8 @@ public class CustomerDataProcess implements CustomerData {
     }
 
     @Override
-    public ArrayList<CustomerDTO> getAll(Connection connection) {
-        ArrayList<CustomerDTO> customers = new ArrayList<>();
+    public ArrayList<Customer> getAll(Connection connection) {
+        ArrayList<Customer> customers = new ArrayList<>();
         try (
              PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_CUSTOMER);
              ResultSet rs = preparedStatement.executeQuery()) {
@@ -56,7 +57,7 @@ public class CustomerDataProcess implements CustomerData {
                 String address = rs.getString("address");
                 String salary = rs.getString("salary");
 
-                CustomerDTO customer = new CustomerDTO(id, name, address, salary);
+                Customer customer = new Customer(id, name, address, salary);
                 customers.add(customer);
             }
 

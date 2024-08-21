@@ -4,6 +4,7 @@ import lk.ijse.possystembackend.bo.CustomerBO;
 import lk.ijse.possystembackend.dao.CustomerData;
 import lk.ijse.possystembackend.dao.impl.CustomerDataProcess;
 import lk.ijse.possystembackend.dto.CustomerDTO;
+import lk.ijse.possystembackend.entity.Customer;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,11 +14,13 @@ public class CustomerBOProcess implements CustomerBO {
     CustomerData customerData = new CustomerDataProcess();
     @Override
     public boolean saveCustomer(CustomerDTO dto, Connection connection) throws SQLException {
-        return customerData.save(dto,connection);
+        Customer entity =CustomerDTO.toEntity(dto);
+        return customerData.save(entity,connection);
     }
     @Override
     public boolean updateCustomer(CustomerDTO dto, Connection connection) throws SQLException {
-        return customerData.update(dto,connection);
+        Customer entity =CustomerDTO.toEntity(dto);
+        return customerData.update(entity,connection);
     }
     @Override
     public boolean deleteCustomer(String id, Connection connection) throws SQLException {
@@ -25,6 +28,16 @@ public class CustomerBOProcess implements CustomerBO {
     }
     @Override
     public ArrayList<CustomerDTO> getAllCustomers(Connection connection) {
-        return customerData.getAll(connection);
+        ArrayList<Customer> customers = customerData.getAll(connection);
+        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
+        for (Customer customer : customers) {
+            customerDTOS.add(new CustomerDTO(
+                    customer.getCustomerId(),
+                    customer.getCustomerName(),
+                    customer.getCustomerAdd(),
+                    customer.getCustomerSalary()
+                    ));
+        }
+        return customerDTOS;
     }
 }
