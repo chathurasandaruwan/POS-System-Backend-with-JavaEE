@@ -1,5 +1,7 @@
 package lk.ijse.possystembackend.dto;
 
+import lk.ijse.possystembackend.entity.Customer;
+import lk.ijse.possystembackend.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +16,13 @@ public class ItemDTO implements Serializable {
     String item_Name;
     String item_price;
     String item_qty;
+
+    public static Item toEntity(ItemDTO itemDTO) {
+        Item item = new Item();
+        item.setItem_code(itemDTO.getItem_code());
+        item.setItem_Name(itemDTO.getItem_Name());
+        item.setItem_price(itemDTO.getItem_price());
+        item.setItem_qty(itemDTO.getItem_qty());
+        return item;
+    }
 }
