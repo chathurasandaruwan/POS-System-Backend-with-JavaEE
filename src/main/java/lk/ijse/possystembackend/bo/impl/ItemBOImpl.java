@@ -20,7 +20,8 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public boolean updateItem(ItemDTO dto, Connection connection) throws SQLException {
-        return false;
+        Item entity = ItemDTO.toEntity(dto);
+        return itemDAO.update(entity,connection);
     }
 
     @Override

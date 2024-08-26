@@ -59,4 +59,28 @@ public class ItemController extends HttpServlet {
         }
 
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!req.getContentType().toLowerCase().startsWith("application/json") || req.getContentType() == null) {
+//            send error
+            resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+        }
+        Jsonb jsonb = JsonbBuilder.create();
+        ItemDTO itemDTO = jsonb.fromJson(req.getReader() , ItemDTO.class);
+        System.out.println(itemDTO);
+        try {
+            boolean isUpdate = itemBO.updateItem(itemDTO, connection);
+            if (isUpdate) {
+                resp.getWriter().write("Update Item");
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+            } else {
+                resp.getWriter().write("unable to Update Item");
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
