@@ -25,4 +25,12 @@ public class ItemDTO implements Serializable {
         item.setItem_qty(itemDTO.getItem_qty());
         return item;
     }
+    public static ItemDTO toDTO(Item item) {
+        return new ItemDTO(
+                item.getItem_code(),
+                item.getItem_Name(),
+                item.getItem_price(),
+                item.getItem_qty()
+        );
+    }
 }

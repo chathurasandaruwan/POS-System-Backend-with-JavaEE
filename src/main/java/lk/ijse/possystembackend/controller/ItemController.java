@@ -9,12 +9,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.possystembackend.bo.ItemBO;
 import lk.ijse.possystembackend.bo.impl.ItemBOImpl;
+import lk.ijse.possystembackend.dto.CustomerDTO;
 import lk.ijse.possystembackend.dto.ItemDTO;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/item")
 public class ItemController extends HttpServlet {
@@ -94,6 +96,17 @@ public class ItemController extends HttpServlet {
             }
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ArrayList<ItemDTO> itemDTOS =itemBO.getAllItem(connection);
+        for (ItemDTO dto : itemDTOS) {
+            resp.getWriter().write(dto.getItem_code()+"\n");
+            resp.getWriter().write(dto.getItem_Name()+"\n");
+            resp.getWriter().write(dto.getItem_price()+"\n");
+            resp.getWriter().write(dto.getItem_qty()+"\n");
+            resp.getWriter().write("======================"+"\n");
         }
     }
 }

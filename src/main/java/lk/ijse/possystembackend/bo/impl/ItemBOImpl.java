@@ -3,7 +3,9 @@ package lk.ijse.possystembackend.bo.impl;
 import lk.ijse.possystembackend.bo.ItemBO;
 import lk.ijse.possystembackend.dao.ItemDAO;
 import lk.ijse.possystembackend.dao.impl.ItemDAOImpl;
+import lk.ijse.possystembackend.dto.CustomerDTO;
 import lk.ijse.possystembackend.dto.ItemDTO;
+import lk.ijse.possystembackend.entity.Customer;
 import lk.ijse.possystembackend.entity.Item;
 
 import java.sql.Connection;
@@ -31,6 +33,11 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public ArrayList<ItemDTO> getAllItem(Connection connection) {
-        return null;
+        ArrayList<Item> items = itemDAO.getAll(connection);
+        ArrayList<ItemDTO> itemDTOS = new ArrayList<>();
+        for (Item item : items) {
+            itemDTOS.add(ItemDTO.toDTO(item));
+        }
+        return itemDTOS;
     }
 }
