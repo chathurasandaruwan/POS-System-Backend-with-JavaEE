@@ -78,9 +78,22 @@ public class ItemController extends HttpServlet {
                 resp.getWriter().write("unable to Update Item");
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String itemCode = req.getParameter("id");
+        try {
+            boolean isDelete = itemBO.deleteItem(itemCode,connection);
+            if (isDelete){
+                resp.getWriter().write(itemCode+" : Delete successfully!!!");
+            }else {
+                resp.getWriter().write("Some thing wrong!! Please Try again!!!");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

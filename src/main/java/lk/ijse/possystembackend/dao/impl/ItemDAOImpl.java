@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class ItemDAOImpl implements ItemDAO {
     static String SAVE_ITEM = "INSERT INTO item(item_code,item_Name,item_price,item_qty)VALUE(?,?,?,?)";
     static String UPDATE_ITEM = "UPDATE item SET item_Name =? , item_price = ?, item_qty =? WHERE item_code = ?";
+    static String DELETE_ITEM = "DELETE FROM item WHERE item_code = ?";
     @Override
     public boolean save(Item entity, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(SAVE_ITEM);
@@ -36,8 +37,10 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean delete(String id, Connection connection) throws SQLException {
-        return false;
+    public boolean delete(String item_code, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ITEM);
+        preparedStatement.setString(1,item_code);
+        return preparedStatement.executeUpdate()>0;
     }
 
     @Override
