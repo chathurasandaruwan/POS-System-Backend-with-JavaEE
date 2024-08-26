@@ -11,6 +11,9 @@ import lk.ijse.possystembackend.bo.CustomerBO;
 import lk.ijse.possystembackend.bo.impl.CustomerBOImpl;
 import lk.ijse.possystembackend.dto.CustomerDTO;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,7 +26,7 @@ public class CustomerController extends HttpServlet {
     Connection connection;
     @Override
     public void init() throws ServletException {
-         try {
+         /*try {
             var driverclass = getServletContext().getInitParameter("driver-class");
             var dbURL = getServletContext().getInitParameter("dbURL");
             var dbUserName = getServletContext().getInitParameter("dbUserName");
@@ -33,6 +36,13 @@ public class CustomerController extends HttpServlet {
             this.connection = DriverManager.getConnection(dbURL, dbUserName, dbPassword);
 
         } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }*/
+        try {
+            var ctx = new InitialContext();
+            DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/posSystem");
+            this.connection =  pool.getConnection();
+        }catch (NamingException | SQLException e){
             e.printStackTrace();
         }
     }
