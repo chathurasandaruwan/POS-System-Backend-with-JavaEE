@@ -1,7 +1,6 @@
 package lk.ijse.possystembackend.dao.impl;
 
 import lk.ijse.possystembackend.dao.OrderDetailDAO;
-import lk.ijse.possystembackend.entity.Item;
 import lk.ijse.possystembackend.entity.OrderDetail;
 
 import java.sql.Connection;
@@ -10,6 +9,7 @@ import java.sql.SQLException;
 
 public class OrderDetailDAOImpl implements OrderDetailDAO {
     static String SAVE_ORDER_DT = "INSERT INTO item(item_code,item_Name,item_price,item_qty)VALUE(?,?,?,?)";
+    @Override
     public boolean save(OrderDetail entity, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(SAVE_ORDER_DT);
 
