@@ -12,6 +12,9 @@ import lk.ijse.possystembackend.bo.impl.ItemBOImpl;
 import lk.ijse.possystembackend.dto.CustomerDTO;
 import lk.ijse.possystembackend.dto.ItemDTO;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +27,7 @@ public class ItemController extends HttpServlet {
     Connection connection;
     @Override
     public void init() throws ServletException {
-        try {
+        /*try {
             var driverclass = getServletContext().getInitParameter("driver-class");
             var dbURL = getServletContext().getInitParameter("dbURL");
             var dbUserName = getServletContext().getInitParameter("dbUserName");
@@ -34,6 +37,13 @@ public class ItemController extends HttpServlet {
             this.connection = DriverManager.getConnection(dbURL, dbUserName, dbPassword);
 
         } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }*/
+        try {
+            var ctx = new InitialContext();
+            DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/posSystem");
+            this.connection =  pool.getConnection();
+        }catch (NamingException | SQLException e){
             e.printStackTrace();
         }
     }
@@ -101,12 +111,21 @@ public class ItemController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ArrayList<ItemDTO> itemDTOS =itemBO.getAllItem(connection);
-        for (ItemDTO dto : itemDTOS) {
+        try (var writer = resp.getWriter()){
+            resp.setContentType("application/json");
+            Jsonb jsonb = JsonbBuilder.create();
+            jsonb.toJson(itemDTOS,writer);
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
+        /*for (ItemDTO dto : itemDTOS) {
             resp.getWriter().write(dto.getItem_code()+"\n");
             resp.getWriter().write(dto.getItem_Name()+"\n");
             resp.getWriter().write(dto.getItem_price()+"\n");
             resp.getWriter().write(dto.getItem_qty()+"\n");
             resp.getWriter().write("======================"+"\n");
-        }
+        }*/
     }
 }
