@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class OrderDAOImpl implements OrderDAO {
-    static String SAVE_ORDER = "INSERT INTO item(item_code,item_Name,item_price,item_qty)VALUE(?,?,?,?)";
+    static String SAVE_ORDER = "INSERT INTO Order(order_id,item_code,order_date,customer_id)VALUE(?,?,?,?)";
    @Override
     public boolean save(Order entity, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(SAVE_ORDER);

@@ -56,6 +56,35 @@ public class OrderController extends HttpServlet {
         System.out.println(orderDTO);
         System.out.println(detailDTO);
 
+        try {
+            boolean isUpdateI = placeOrderBO.updateItem(itemDTO, connection);
+            if (isUpdateI) {
+                resp.getWriter().write("Update Item");
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+                    boolean isSavedO = placeOrderBO.saveOrder(orderDTO,connection);
+                    if (isSavedO) {
+                        resp.getWriter().write("Save Order");
+                        resp.setStatus(HttpServletResponse.SC_CREATED);
+                            boolean isSavedOD = placeOrderBO.saveOD(detailDTO,connection);
+                            if (isSavedOD) {
+                                resp.getWriter().write("Save Order Detail");
+                                resp.setStatus(HttpServletResponse.SC_CREATED);
+                            } else {
+                                resp.getWriter().write("unable to save Order Detail");
+                                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                            }
+                    } else {
+                        resp.getWriter().write("unable to save Order");
+                        resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    }
+            } else {
+                resp.getWriter().write("unable to Update Item");
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
