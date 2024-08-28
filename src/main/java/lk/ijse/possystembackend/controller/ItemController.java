@@ -27,18 +27,6 @@ public class ItemController extends HttpServlet {
     Connection connection;
     @Override
     public void init() throws ServletException {
-        /*try {
-            var driverclass = getServletContext().getInitParameter("driver-class");
-            var dbURL = getServletContext().getInitParameter("dbURL");
-            var dbUserName = getServletContext().getInitParameter("dbUserName");
-            var dbPassword = getServletContext().getInitParameter("dbPassword");
-
-            Class.forName(driverclass);
-            this.connection = DriverManager.getConnection(dbURL, dbUserName, dbPassword);
-
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }*/
         try {
             var ctx = new InitialContext();
             DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/posSystem");
