@@ -1,5 +1,6 @@
 package lk.ijse.possystembackend.dto;
 
+import lk.ijse.possystembackend.entity.Item;
 import lk.ijse.possystembackend.entity.Order;
 import lk.ijse.possystembackend.entity.OrderDetail;
 import lombok.AllArgsConstructor;
@@ -29,5 +30,15 @@ public class OrderDetailDTO implements Serializable {
         orderDetail.setOrder_date(dto.getOrder_date());
         orderDetail.setCustomer_id(dto.getCustomer_id());
         return orderDetail;
+    }
+    public static OrderDetailDTO toDTO(OrderDetail entity) {
+        return new OrderDetailDTO(
+                entity.getId(),
+                entity.getOrder_id(),
+                entity.getItem_code(),
+                entity.getQty(),
+                entity.getOrder_date(),
+                entity.getCustomer_id()
+        );
     }
 }

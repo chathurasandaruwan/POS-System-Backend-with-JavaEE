@@ -16,6 +16,7 @@ import lk.ijse.possystembackend.entity.OrderDetail;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PlaceOrderBOImpl implements PlaceOrderBO {
     ItemDAO itemDAO = new ItemDAOImpl();
@@ -36,5 +37,14 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     public boolean saveOD(OrderDetailDTO dto,Connection connection) throws SQLException {
         OrderDetail entity = OrderDetailDTO.toEntity(dto);
         return orderDetailDAO.save(entity,connection);
+    }
+    @Override
+    public ArrayList<OrderDetailDTO> getAllOrders(Connection connection) {
+        ArrayList<OrderDetail> orderDetails = orderDetailDAO.getAll(connection);
+        ArrayList<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
+        for (OrderDetail orderDetail : orderDetails) {
+            orderDetailDTOS.add(OrderDetailDTO.toDTO(orderDetail));
+        }
+        return orderDetailDTOS;
     }
 }

@@ -6,6 +6,7 @@ import lk.ijse.possystembackend.dto.OrderDetailDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface PlaceOrderBO {
     boolean updateItem(ItemDTO dto, Connection connection) throws SQLException;
@@ -13,4 +14,6 @@ public interface PlaceOrderBO {
     boolean saveOrder(OrderDTO dto, Connection connection) throws SQLException;
 
     boolean saveOD(OrderDetailDTO dto, Connection connection) throws SQLException;
+
+    ArrayList<OrderDetailDTO> getAllOrders(Connection connection);
 }

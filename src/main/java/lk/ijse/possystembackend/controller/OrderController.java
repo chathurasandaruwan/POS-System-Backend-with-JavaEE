@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/order")
 public class OrderController extends HttpServlet {
@@ -84,6 +85,20 @@ public class OrderController extends HttpServlet {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ArrayList<OrderDetailDTO> orderDetailDTOS =placeOrderBO.getAllOrders(connection);
+        try (var writer = resp.getWriter()){
+            resp.setContentType("application/json");
+            Jsonb jsonb = JsonbBuilder.create();
+            jsonb.toJson(orderDetailDTOS,writer);
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
 
     }
