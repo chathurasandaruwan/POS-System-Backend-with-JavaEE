@@ -2,23 +2,20 @@ package lk.ijse.possystembackend.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PlaceOrder {
+public class Order {
     @Id
-    String id;
-    String itemCode;
-    String itemName;
-    String price;
+    String order_id;
+    String item_code;
     String qty;
-    String total;
-
+    String order_date;
+    String customer_id;
 }

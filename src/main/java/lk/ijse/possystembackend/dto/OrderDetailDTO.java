@@ -9,10 +9,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PlaceOrderDTO implements Serializable {
+public class OrderDetailDTO implements Serializable {
     String id;
     String itemCode;
-    String itemName;
     String price;
     String qty;
     String total;
