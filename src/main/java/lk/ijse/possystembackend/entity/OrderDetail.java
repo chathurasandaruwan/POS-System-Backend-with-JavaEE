@@ -18,5 +18,4 @@ public class OrderDetail {
     String qty;
     String order_date;
     String customer_id;
-
 }
