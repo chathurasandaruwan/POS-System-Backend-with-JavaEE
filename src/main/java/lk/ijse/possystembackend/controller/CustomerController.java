@@ -74,14 +74,23 @@ public class CustomerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ArrayList<CustomerDTO> customerDTOS =customerBO.getAllCustomers(connection);
-        for (CustomerDTO dto : customerDTOS) {
+        try (var writer = resp.getWriter()){
+            resp.setContentType("application/json");
+            Jsonb jsonb = JsonbBuilder.create();
+            jsonb.toJson(customerDTOS,writer);
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
+        /*for (CustomerDTO dto : customerDTOS) {
             System.out.println(dto.getCustomerId()+"\n");
             resp.getWriter().write(dto.getCustomerId()+"\n");
             resp.getWriter().write(dto.getCustomerName()+"\n");
             resp.getWriter().write(dto.getCustomerAdd()+"\n");
             resp.getWriter().write(dto.getCustomerSalary()+"\n");
             resp.getWriter().write("======================"+"\n");
-        }
+        }*/
     }
 
 
@@ -98,7 +107,7 @@ public class CustomerController extends HttpServlet {
             boolean isUpdate = customerBO.updateCustomer(customerDTO,connection);
             if (isUpdate) {
                 resp.getWriter().write("Update Customer");
-                resp.setStatus(HttpServletResponse.SC_CREATED);
+                resp.setStatus(HttpServletResponse.SC_ACCEPTED);
             } else {
                 resp.getWriter().write("unable to update Customer");
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
