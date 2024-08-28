@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 public class OrderDetail {
     @Id
     String id;
-    String itemCode;
-    String itemName;
-    String price;
+    String order_id;
+    String item_code;
     String qty;
-    String total;
+    String order_date;
+    String customer_id;
 
 }

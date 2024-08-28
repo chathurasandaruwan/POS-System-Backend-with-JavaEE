@@ -12,7 +12,6 @@ import java.io.Serializable;
 public class OrderDTO implements Serializable {
     String order_id;
     String item_code;
-    String qty;
     String order_date;
     String customer_id;
 }
